@@ -29,13 +29,14 @@ export default function LoginPage() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4 w-80">
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input type="email" placeholder="Email/UserId" value={email} onChange={(e) => setEmail(e.target.value)} required className="border p-2 rounded"/>
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="border p-2 rounded"
         />
         <button type="submit" className="bg-blue-600 text-white py-2 rounded">
           Login

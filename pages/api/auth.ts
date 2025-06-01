@@ -10,10 +10,10 @@ export default async function handler(
   if (req.method === "POST") {
     const { email, password } = req.body;
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) return res.status(401).json({ error: "Invalid credentials" });
+    if (!user) return res.status(401).json({ error: "Invalid credentialsu" });
 
     const isValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isValid) return res.status(401).json({ error: "Invalid credentials" });
+    if (!isValid) return res.status(401).json({ error: "Invalid credentialsv" });
 
     const token = await signToken({
       id: user.id,
@@ -38,6 +38,7 @@ export default async function handler(
       redirectPath,
     });
   } else {
-    res.status(405).end();
+    console.log("Received login GET request")
+    res.end();
   }
 }

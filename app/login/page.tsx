@@ -19,9 +19,9 @@ export default function LoginPage() {
 
     const data = await res.json()
     if (res.ok) {
-      console.log("data.redirectPath ",data.redirectPath )
       router.push(data.redirectPath || '/dashboard') // fallback if needed
     } else {
+      alert("Invalid credentials")
       setError(data.error || 'Something went wrong')
     }
   }

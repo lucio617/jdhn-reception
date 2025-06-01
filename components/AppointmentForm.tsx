@@ -13,8 +13,15 @@ export default function AppointmentForm({ onSave }: { onSave: () => void }) {
   })
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const { name, value, type, checked } = e.target
-    setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+      const { name, value, type } = e.target
+  const isCheckbox = type === 'checkbox'
+
+  setForm((f) => ({
+    ...f,
+    [name]: isCheckbox
+      ? (e.target as HTMLInputElement).checked
+      : value
+  }))
   }
 
   async function handleSubmit(e: React.FormEvent) {

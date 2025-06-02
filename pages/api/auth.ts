@@ -1,3 +1,4 @@
+// pages/api/auth.ts
 import prisma from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 import { signToken } from "../../lib/jwt";
@@ -8,6 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
+    console.log("Post hit")
     const { email, password } = req.body;
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return res.status(401).json({ error: "Invalid credentialsu" });
@@ -21,15 +23,13 @@ export default async function handler(
       email: user.email,
     });
 
-    // Use serialized cookie and redirect to dashboard
     res.setHeader(
       "Set-Cookie",
       `token=${token}; HttpOnly; Path=/; Max-Age=28800; SameSite=Lax`
     );
+
     let redirectPath = "/login";
-    if (user.role === "ADMIN") {
-      redirectPath = "/dashboard/appointments";
-    } else if (user.role === "RECEPTIONIST") {
+    if (user.role === "ADMIN" || user.role === "RECEPTIONIST") {
       redirectPath = "/dashboard/appointments";
     }
 
@@ -38,7 +38,8 @@ export default async function handler(
       redirectPath,
     });
   } else {
-    console.log("Received login GET request")
-    res.end();
+    // 👇 Handle unsupported methods explicitly
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 }

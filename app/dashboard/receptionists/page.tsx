@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 export default function ReceptionistsPage() {
   const [receptionists, setReceptionists] = useState<any[]>([])
-  const [email, setEmail] = useState('')
+  const [userId, setuserId] = useState('')
   const [password, setPassword] = useState('')
 
   async function fetchReceptionists() {
@@ -21,11 +21,11 @@ export default function ReceptionistsPage() {
     const res = await fetch('/api/receptionists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ userId, password }),
     })
     if (res.ok) {
       alert('Receptionist added')
-      setEmail('')
+      setuserId('')
       setPassword('')
       fetchReceptionists()
     } else {
@@ -54,11 +54,11 @@ export default function ReceptionistsPage() {
 
       <form onSubmit={handleAdd} className="mb-4 space-x-2">
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
+          type="text"
+          placeholder="userId"
+          value={userId}
           required
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setuserId(e.target.value)}
           className="border p-2 rounded"
         />
         <input
@@ -77,7 +77,7 @@ export default function ReceptionistsPage() {
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th className="border border-gray-300 p-2">Email</th>
+            <th className="border border-gray-300 p-2">UserId</th>
             <th className="border border-gray-300 p-2">Created At</th>
             <th className="border border-gray-300 p-2">Actions</th>
           </tr>
@@ -85,7 +85,7 @@ export default function ReceptionistsPage() {
         <tbody>
           {receptionists.map((r) => (
             <tr key={r.id}>
-              <td className="border border-gray-300 p-2">{r.email}</td>
+              <td className="border border-gray-300 p-2">{r.userId}</td>
               <td className="border border-gray-300 p-2">{new Date(r.createdAt).toLocaleString()}</td>
               <td className="border border-gray-300 p-2">
                 <button

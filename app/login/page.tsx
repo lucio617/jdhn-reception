@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
+  const [userId, setuserID] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
   const [error, setError] = useState('')
@@ -14,7 +14,7 @@ export default function LoginPage() {
     const res = await fetch('/api/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ userId, password }),
     })
 
     const data = await res.json()
@@ -29,7 +29,7 @@ export default function LoginPage() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4 w-80">
-        <input type="email" placeholder="Email/UserId" value={email} onChange={(e) => setEmail(e.target.value)} required className="border p-2 rounded"/>
+        <input type="text" placeholder="UserId" value={userId} onChange={(e) => setuserID(e.target.value)} required className="border p-2 rounded"/>
         <input
           type="password"
           placeholder="Password"

@@ -10,8 +10,8 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     console.log("Post hit")
-    const { email, password } = req.body;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { userId, password } = req.body;
+    const user = await prisma.user.findUnique({ where: { userId } });
     if (!user) return res.status(401).json({ error: "Invalid credentialsu" });
 
     const isValid = await bcrypt.compare(password, user.passwordHash);
@@ -20,7 +20,7 @@ export default async function handler(
     const token = await signToken({
       id: user.id,
       role: user.role,
-      email: user.email,
+      userId: user.userId,
     });
 
     res.setHeader(

@@ -46,6 +46,10 @@ export default function AppointmentsPage() {
           <tr>
             <th className="border border-gray-300 p-2">Patient Name</th>
             <th className="border border-gray-300 p-2">Date</th>
+            <th className="border border-gray-300 p-2">Gender</th>
+            <th className="border border-gray-300 p-2">Phone Number</th>
+            <th className="border border-gray-300 p-2">Address</th>
+            <th className="border border-gray-300 p-2">Amount</th>
             <th className="border border-gray-300 p-2">Entered By</th>
             <th className="border border-gray-300 p-2">Actions</th>
           </tr>
@@ -55,7 +59,11 @@ export default function AppointmentsPage() {
             <tr key={appt.id}>
               <td className="border border-gray-300 p-2">{appt.patientName}</td>
               <td className="border border-gray-300 p-2">{new Date(appt.date).toLocaleString()}</td>
-              <td className="border border-gray-300 p-2">{appt.enteredBy.email}</td>
+              <td className="border border-gray-300 p-2">{appt.sex}</td>
+              <td className="border border-gray-300 p-2">{appt.phoneNumber}</td>
+              <td className="border border-gray-300 p-2">{appt.address}</td>
+              <td className="border border-gray-300 p-2">{appt.amount}</td>
+              <td className="border border-gray-300 p-2">{appt.enteredBy.userId}</td>
               <td className="border border-gray-300 p-2">
                 <button
                   onClick={() => setEditing(appt)}

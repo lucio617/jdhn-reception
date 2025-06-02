@@ -14,24 +14,24 @@ export default async function handler(
   if (req.method === "GET") {
     const receptionists = await prisma.user.findMany({
       where: { role: "RECEPTIONIST" }, 
-      select: { id: true, email: true, createdAt: true },
+      select: { id: true, userId: true, createdAt: true },
     });
 
     return res.status(200).json(receptionists);
   } else if (req.method === "POST") {
-    const { email, password } = req.body;
-    if (!email || !password)
-      return res.status(400).json({ error: "Missing email or password" });
+    const { userId, password } = req.body;
+    if (!userId || !password)
+      return res.status(400).json({ error: "Missing userId or password" });
 
-    const existing = await prisma.user.findUnique({ where: { email } });
+    const existing = await prisma.user.findUnique({ where: { userId } });
     if (existing) return res.status(400).json({ error: "User already exists" });
 
     const bcrypt = await import("bcryptjs");
     const passwordHash = await bcrypt.hash(password, 10);
 
     const newUser = await prisma.user.create({
-      data: { email, passwordHash, role: "RECEPTIONIST" },
-      select: { id: true, email: true },
+      data: { userId, passwordHash, role: "RECEPTIONIST" },
+      select: { id: true, userId: true },
     });
 
     return res.status(201).json(newUser);

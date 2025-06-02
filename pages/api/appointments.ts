@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       prisma.appointment.findMany({
         skip,
         take: limit,
-        include: { enteredBy: { select: { email: true } } },
+        include: { enteredBy: { select: { userId: true } } },
         orderBy: { date: 'desc' },
       }),
       prisma.appointment.count(),

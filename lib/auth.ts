@@ -9,7 +9,7 @@ if (!JWT_SECRET) {
 
 export interface AuthPayload {
   id: string
-  email: string
+  userId: string
   role: 'ADMIN' | 'RECEPTIONIST'
 }
 

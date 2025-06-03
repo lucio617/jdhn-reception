@@ -32,9 +32,9 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="p-4 bg-blue-600 text-white flex justify-between items-center">
+    <nav className="w-full flex flex-col sm:flex-row items-center justify-between bg-blue-600 px-4 py-2 text-white">
       <div className="font-bold text-xl">Doctor Booking</div>
-      <div className="space-x-4 flex items-center">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 sm:mt-0">
         <Link href="/dashboard/appointments" className="hover:underline">Appointments</Link>
         {role === 'ADMIN' && (
           <Link href="/dashboard/receptionists" className="hover:underline">Receptionists</Link>

@@ -40,7 +40,8 @@ export default function AppointmentsPage() {
   }
 
   return (
-    <div className="p-4">
+    <div className="sm:p-6 text-sm sm:text-base">
+    <div className="p-2">
       <h1 className="text-xl font-bold mb-4">Appointments</h1>
 
       {/* 🔵 Create Appointment Button */}
@@ -52,6 +53,7 @@ export default function AppointmentsPage() {
       </button>
 
       {/* 🔵 Table of Appointments */}
+      <div className="overflow-x-auto">
       <table className="w-full border-collapse border ">
         <thead>
           <tr>
@@ -132,6 +134,7 @@ export default function AppointmentsPage() {
           )}
         </tbody>
       </table>
+      </div>
       {/* 🔵 Pagination Controls */}
       <div className="mt-4 space-x-2">
         <button
@@ -192,6 +195,7 @@ export default function AppointmentsPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

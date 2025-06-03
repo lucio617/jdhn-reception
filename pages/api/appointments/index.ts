@@ -49,8 +49,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const appointment = await prisma.appointment.findUnique({ where: { id } })
     if (!appointment) return res.status(404).json({ error: 'Appointment not found' })
 
-    // Only allow editing if current user is creator
-    if (appointment.enteredById !== currentUser.id) {
+    // Only allow editing if current user is creator or Admin
+    if (appointment.enteredById !== currentUser.id && currentUser.role!="ADMIN") {
       return res.status(403).json({ error: 'Forbidden' })
     }
 

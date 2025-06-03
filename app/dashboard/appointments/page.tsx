@@ -12,7 +12,6 @@ export default function AppointmentsPage() {
   const [editing, setEditing] = useState<any | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-
   async function fetchAppointments() {
     const res = await fetch(`/api/appointments?page=${page}&limit=${limit}`);
     const data = await res.json();
@@ -27,7 +26,7 @@ export default function AppointmentsPage() {
   const groupedAppointments: Record<string, typeof appointments> = {};
 
   appointments.forEach((appt) => {
-    const dateKey = new Date(appt.date).toLocaleDateString('en-GB'); // e.g., "2/6/2025"
+    const dateKey = new Date(appt.date).toLocaleDateString("en-GB"); // e.g., "2/6/2025"
     if (!groupedAppointments[dateKey]) {
       groupedAppointments[dateKey] = [];
     }
@@ -77,15 +76,33 @@ export default function AppointmentsPage() {
                 <React.Fragment key={date}>
                   {dayAppointments.map((appt) => (
                     <tr key={appt.id}>
-                      <td className="border border-gray-300 p-2">{appt.patientName}</td>
                       <td className="border border-gray-300 p-2">
-                        {new Date(appt.date).toLocaleString()}
+                        {appt.patientName}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {new Date(appt.date).toLocaleString("en-GB", {
+                          timeZone: "Asia/Kolkata",
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
                       </td>
                       <td className="border border-gray-300 p-2">{appt.sex}</td>
-                      <td className="border border-gray-300 p-2">{appt.phoneNumber}</td>
-                      <td className="border border-gray-300 p-2">{appt.address}</td>
-                      <td className="border border-gray-300 p-2">{appt.amount}</td>
-                      <td className="border border-gray-300 p-2">{appt.enteredBy.userId}</td>
+                      <td className="border border-gray-300 p-2">
+                        {appt.phoneNumber}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {appt.address}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {appt.amount}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {appt.enteredBy.userId}
+                      </td>
                       <td className="border border-gray-300 p-2">
                         <button
                           onClick={() => setEditing(appt)}
@@ -98,10 +115,15 @@ export default function AppointmentsPage() {
                   ))}
                   {/* 💰 Total Row for that Day */}
                   <tr className="bg-green-100 font-semibold">
-                    <td colSpan={5} className="border border-gray-300 p-2 text-right">
+                    <td
+                      colSpan={5}
+                      className="border border-gray-300 p-2 text-right"
+                    >
                       Total for {date}:
                     </td>
-                    <td className="border border-gray-300 p-2">₹{dailyTotal}</td>
+                    <td className="border border-gray-300 p-2">
+                      ₹{dailyTotal}
+                    </td>
                     <td colSpan={2} className="border border-gray-300 p-2"></td>
                   </tr>
                 </React.Fragment>
@@ -132,7 +154,26 @@ export default function AppointmentsPage() {
       </div>
 
       {/* 🔵 Edit Modal */}
-      {editing && <EditAppointmentForm appointment={editing} onSave={onSave} />}
+      {editing && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded shadow-lg w-full max-w-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Edit Appointment</h2>
+              <button
+                onClick={() => setEditing(null)}
+                className="text-gray-600 hover:text-black text-xl"
+              >
+                &times;
+              </button>
+            </div>
+            <EditAppointmentForm
+              appointment={editing}
+              onSave={onSave}
+              close={() => setEditing(null)}
+            />
+          </div>
+        </div>
+      )}
 
       {/* 🔵 Create Modal */}
       {showCreateModal && (
